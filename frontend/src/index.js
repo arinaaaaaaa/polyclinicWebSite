@@ -1,11 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './Styles/Universal.css';
-import { MainPage } from './MainPage'
+import { BrowserRouter } from 'react-router-dom';
+import { App } from './App'
 
 ReactDOM.render(
-  <React.StrictMode>
-    <MainPage />
-  </React.StrictMode>,
+  <BrowserRouter>
+    <App />
+  </BrowserRouter>,
   document.getElementById('root')
 );

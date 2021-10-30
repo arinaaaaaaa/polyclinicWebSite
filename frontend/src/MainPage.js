@@ -1,6 +1,4 @@
 import React from 'react';
-import { Header } from './Universal/Header'
-import { Footer } from './Universal/Footer'
 import { SingUp } from './Universal/SingUp'
 import './Styles/MainPage.css'
 
@@ -80,12 +78,10 @@ function OurHistory() {
 function MainPage() {
   return (
     <>
-      <Header/>
       <Banner/>
       <SingUp/>
       <NavSection/>
       <OurHistory/>
-      <Footer/>
     </>
   );
 }
