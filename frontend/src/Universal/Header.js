@@ -6,12 +6,12 @@ function Header() {
         <>
             <div className="header">
                 <span className="links">
-                    <a href="">ГЛАВНАЯ</a>
+                    <a href="/">ГЛАВНАЯ</a>
                     <a href="">ЗАПИСАТЬСЯ НА ПРИЕМ</a>
-                    <a href="">УЧРЕЖДЕНИЯ</a>
+                    <a href="/clinics">УЧРЕЖДЕНИЯ</a>
                     <a href="">УЧЕТНАЯ ЗАПИСЬ</a>
                 </span>
-                <a href="" className="logo">ПОЛИКЛИНИКА №220</a>
+                <a href="/" className="logo">ПОЛИКЛИНИКА №220</a>
             </div>
         </>
     )

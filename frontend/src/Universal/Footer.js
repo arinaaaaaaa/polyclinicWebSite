@@ -9,7 +9,7 @@ function Footer() {
                 <span className="sectionLinks">
                     <p className="linkTitle">Сервисы</p>
                     <div className="link"><a href="">Запись к врачу</a></div>
-                    <div className="link"><a href="">Учреждение</a></div>
+                    <div className="link"><a href="clinics">Учреждение</a></div>
                     <div className="link"><a href="">Медкарта</a></div>
                 </span>
                 <span className="sectionLinks">
