@@ -5,6 +5,7 @@ import { Login } from './Login';
 import { SingUp } from './SingUp';
 import { MainPage } from './MainPage';
 import { Addresses } from './Addresses';
+import { UserPage } from './AccountUser';
 import { Route, Switch } from 'react-router-dom';
 
 function App(props) {
@@ -17,6 +18,7 @@ function App(props) {
               <Route exact path='/clinics' component = { Addresses } />
               <Route exact path='/login' component = { Login } />
               <Route exact path='/join' component = { SingUp } />
+              <Route exact path='/user' component = { UserPage }/>
             </div>
           </Switch>
           <Footer></Footer>

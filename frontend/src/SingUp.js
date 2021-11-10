@@ -8,15 +8,15 @@ function SingUp() {
                 <img src="images/singupIcon.svg"/>
                 <form className="singupForm">
                     <div className="title">Регистрация</div>
-                    <input type="text" placeholder="Имя"/>
-                    <input type="text" placeholder="Фамилия"/>
-                    <input type="text" placeholder="Отчество"/>
-                    <input type="date" placeholder="Дата рождения"/>
-                    <input type="phone" placeholder="Номер телефона"/>
-                    <input type="polis" placeholder="Номер полиса"/>
-                    <input type="login" placeholder="Логин"/>
-                    <input type="password" placeholder="Пароль"/>
-                    <input type="password" placeholder="Повторите пароль"/>
+                    <input className="personalData" type="text" placeholder="Имя"/>
+                    <input className="personalData" type="text" placeholder="Фамилия"/>
+                    <input className="personalData" type="text" placeholder="Отчество"/>
+                    <input className="personalData" type="date" placeholder="Дата рождения"/>
+                    <input className="personalData" type="phone" placeholder="Номер телефона"/>
+                    <input className="personalData" type="polis" placeholder="Номер полиса"/>
+                    <input className="personalData" type="login" placeholder="Логин"/>
+                    <input className="personalData" type="password" placeholder="Пароль"/>
+                    <input className="personalData" type="password" placeholder="Повторите пароль"/>
                     <button>Зарегистрироваться</button>
                 </form>
             </div>
