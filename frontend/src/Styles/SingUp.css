@@ -1,11 +1,12 @@
 .singupSection {
+    margin-top: 0px;
     width: 100%;
     justify-content: center;
     display: grid;
     grid-template-columns: 1210px;
 }
 .singup {
-    margin: 70px 0px;
+    margin: 30px 0px;
     display: grid;
     grid-template-columns: 780px 400px;
     column-gap: 30px;
