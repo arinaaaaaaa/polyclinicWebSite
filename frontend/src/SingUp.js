@@ -37,7 +37,7 @@ function SingUp() {
         <div className="singupSection">
             <div className="singup">
                 <img src="images/singupIcon.svg"/>
-                <form className="singupForm" onSubmit = { sendJSONRegistration }>
+                <div className="singupForm">
                     <div className="title">Регистрация</div>
                     <input className="personalData" type="text" placeholder="Имя" onChange = {(event) => {setInputedName(event.target.value)}}/>
                     <input className="personalData" type="text" placeholder="Фамилия" onChange = {(event) => {setInputedSurname(event.target.value)}}/>
@@ -48,8 +48,8 @@ function SingUp() {
                     <input className="personalData" type="login" placeholder="Логин" onChange = {(event) => {setInputedLogin(event.target.value)}}/>
                     <input className="personalData" type="password" placeholder="Пароль" onChange = {(event) => {setInputedPassword(event.target.value)}}/>
                     <input className="personalData" type="password" placeholder="Повторите пароль" onChange = {(event) => {setInputedPasswordConfirm(event.target.value)}}/>
-                    <button type="submit">Зарегистрироваться</button>
-                </form>
+                    <button type="submit" onClick = { sendJSONRegistration }>Зарегистрироваться</button>
+                </div>
             </div>
         </div>
     )

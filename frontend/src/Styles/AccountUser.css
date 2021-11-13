@@ -57,6 +57,11 @@
     font-size: 21px;
     margin-bottom: 10px;
 }
+.date {
+    margin-top: 20px;
+    font-family: 'jost';
+    font-size: 16px;
+}
 .doctorName, .room { font-family: 'montserrat-alternates'; }
 .dateNote {
     width: 100%;
