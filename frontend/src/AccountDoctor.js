@@ -1,16 +1,42 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useState } from 'react';
+import axios from 'axios';
 import { Modal } from './Universal/Modal';
 import './Styles/AccountDoctor.css';
 
+function getJSONDoctorData(changeData) {
+    axios('http://localhost:8000/doctor/data/', { withCredentials: true })
+    .then((response) => { 
+        console.log(response.data)
+        changeData(response.data)
+    })
+}
+
+function calculate_age(birthMonth,birthDay,birthYear) {
+    var todayDate = new Date();
+    var todayYear = todayDate.getFullYear();
+    var todayMonth = todayDate.getMonth();
+    var todayDay = todayDate.getDate();
+    var age = todayYear - birthYear;
+
+    if ( todayMonth < (birthMonth - 1) || ((birthMonth - 1) == todayMonth) && (todayDay < birthDay)) age--;
+
+    return age.toString();
+}
+
 function HelloBanner() {
+    const [doctorData, changeData] = useState(null)
+    useEffect(() => { getJSONDoctorData(changeData) }, [])
+
     return (
         <div className="userPage">
             <div className="helloSection">
                 <span className="userInfo">
                     <div className="hello">Хорошего дня,</div>
-                    <div className="username">Иванов Иван Иванович !</div>
-                        <div className="birthDate">21.05.2001 (20 лет)</div>
+                    <div className="username">{ doctorData != null ? doctorData.user['last_name'] + " " + doctorData.user['first_name'] + " " + doctorData['patronymic'] : null } !</div>
+                    <div className="birthDate">{ doctorData != null ? 
+                    doctorData['birthDate'].split("-")[2] + "." + doctorData['birthDate'].split("-")[1] + "." + doctorData['birthDate'].split("-")[0] + " " +
+                    "(" + calculate_age(doctorData['birthDate'].split("-")[1], doctorData['birthDate'].split("-")[2], doctorData['birthDate'].split("-")[0]) + " лет)" : ""}</div>
                 </span>
                 <img src="images/userAccount.svg" alt="" />
             </div>

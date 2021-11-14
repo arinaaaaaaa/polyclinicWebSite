@@ -1,16 +1,43 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useState } from 'react';
+import axios from 'axios';
 import { Modal } from './Universal/Modal';
 import './Styles/AccountUser.css';
 
+
+function getJSONUserData(changeData) {
+    axios('http://localhost:8000/patient/data/', { withCredentials: true })
+    .then((response) => { 
+        changeData(response.data)
+    })
+}
+
+function calculate_age(birth_month,birth_day,birth_year)
+{
+    var today_date = new Date();
+    var today_year = today_date.getFullYear();
+    var today_month = today_date.getMonth();
+    var today_day = today_date.getDate();
+    var age = today_year - birth_year;
+
+    if ( today_month < (birth_month - 1) || ((birth_month - 1) == today_month) && (today_day < birth_day)) age--;
+
+    return age.toString();
+}
+
 function HelloBanner() {
+    const [patientData, changeData] = useState(null)
+    useEffect(() => { getJSONUserData(changeData) }, [])
     return (
         <div className="userPage">
             <div className="helloSection">
                 <span className="userInfo">
                     <div className="hello">Хорошего дня,</div>
-                    <div className="username">Иванов Иван Иванович !</div>
-                        <div className="birthDate">21.05.2001 (20 лет)</div>
+                        {console.log(patientData)}
+                        <div className="username">{ patientData != null ? patientData.user['last_name'] + " " + patientData.user['first_name'] + " " + patientData['patronymic'] : null } !</div>
+                        <div className="birthDate">{ patientData != null ? 
+                        patientData['birthDate'].split("-")[2] + "." + patientData['birthDate'].split("-")[1] + "." +patientData['birthDate'].split("-")[0] + " " +
+                        "(" + calculate_age(patientData['birthDate'].split("-")[1], patientData['birthDate'].split("-")[2], patientData['birthDate'].split("-")[0]) + " лет)" : ""}</div>
                 </span>
                 <img src="images/userAccount.svg" alt="" />
             </div>

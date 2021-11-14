@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 import './Styles/Login.css';
@@ -9,21 +9,27 @@ function Login() {
     const history = useHistory();
 
     function sendJSONLogin() {
-        console.log("send req")
-        axios.post('http://localhost:8000/login/auth/',
-        {
-            'login': inputedLogin,
-            'password': inputedPassword
-        },
-        { headers: {
-            "Content-Type": "application/json"
-        }})
+        axios('http://localhost:8000/login/auth/', {
+            method: "post",
+            data: {
+                'login': inputedLogin,
+                'password': inputedPassword
+            },
+            withCredentials: true
+        })
         .then((response) => { 
             if (response != null) {
-                console.log(response)
+                if (response.data['userType'] == "patient") {
+                    history.push('/user')
+                }
+                else if (response.data['userType'] == "doctor") {
+                    history.push('/doctor')
+                }
             }
          })
     }
+
+    useEffect(sendJSONLogin, [])
 
     return (
         <div className="loginSection">

@@ -27,7 +27,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -79,7 +78,8 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'backend.wsgi.application'
-
+CORS_ALLOW_CREDENTIALS = True
+SESSION_COOKIE_AGE = 3600
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
@@ -93,7 +93,6 @@ DATABASES = {
         'HOST' : '127.0.0.1',
         'PORT' : 3308,
         'OPTIONS': {
-        'init_command': 'ALTER DATABASE polyclinic CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci',
         },
     }
 }

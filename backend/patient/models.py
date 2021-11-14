@@ -7,6 +7,7 @@ class Patient(models.Model):
     patronymic = models.CharField(max_length = 50, null = True)
     polis = models.CharField(max_length = 16, null = False)
     birthDate = models.DateField(null = False)
+    userType = "patient"
 
     @classmethod
     def create(cls, name, surname, patronymic, birthDate, email, polis, username, password):
