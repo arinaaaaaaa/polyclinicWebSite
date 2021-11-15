@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'doctor.apps.DoctorConfig',
     'patient.apps.PatientConfig',
     'authentification.apps.AuthentificationConfig',
+    'polyclinic.apps.PolyclinicConfig',
     'rest_framework',
     'corsheaders',
 ]

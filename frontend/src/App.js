@@ -7,6 +7,7 @@ import { MainPage } from './MainPage';
 import { Addresses } from './Addresses';
 import { UserPage } from './AccountUser';
 import { DoctorPage } from './AccountDoctor';
+import { NotePage } from './NotePage';
 import { Route, Switch } from 'react-router-dom';
 
 function App(props) {
@@ -21,6 +22,7 @@ function App(props) {
               <Route exact path='/join' component = { SingUp } />
               <Route exact path='/user' component = { UserPage }/>
               <Route exact path='/doctor' component = { DoctorPage }/>
+              <Route exec path='/note' component = { NotePage }/>
             </div>
           </Switch>
           <Footer></Footer>
