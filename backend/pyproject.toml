@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "backend"
+version = "0.1.0"
+description = ""
+authors = ["arina krumm <92879566+arinaaaaaaa@users.noreply.github.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+Django = "^3.2.9"
+django-redis = "^5.0.0"
+django-redis-sessions = "^0.6.2"
+djangorestframework = "^3.12.4"
+django-cors-headers = "^3.10.0"
+django-model-utils = "^4.2.0"
+psycopg2-binary = "^2.9.2"
+gunicorn = "^20.1.0"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

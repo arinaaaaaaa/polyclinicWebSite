@@ -12,7 +12,7 @@ function getJSONDoctorData(changeData) {
     })
 }
 
-function calculate_age(birthMonth,birthDay,birthYear) {
+function calculateAge(birthMonth,birthDay,birthYear) {
     var todayDate = new Date();
     var todayYear = todayDate.getFullYear();
     var todayMonth = todayDate.getMonth();
@@ -36,7 +36,7 @@ function HelloBanner() {
                     <div className="username">{ doctorData != null ? doctorData.user['last_name'] + " " + doctorData.user['first_name'] + " " + doctorData['patronymic'] : null } !</div>
                     <div className="birthDate">{ doctorData != null ? 
                     doctorData['birthDate'].split("-")[2] + "." + doctorData['birthDate'].split("-")[1] + "." + doctorData['birthDate'].split("-")[0] + " " +
-                    "(" + calculate_age(doctorData['birthDate'].split("-")[1], doctorData['birthDate'].split("-")[2], doctorData['birthDate'].split("-")[0]) + " лет)" : ""}</div>
+                    "(" + calculateAge(doctorData['birthDate'].split("-")[1], doctorData['birthDate'].split("-")[2], doctorData['birthDate'].split("-")[0]) + " лет)" : ""}</div>
                 </span>
                 <img src="images/userAccount.svg" alt="" />
             </div>

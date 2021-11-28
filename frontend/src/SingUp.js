@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 import './Styles/SingUp.css';
 
 function SingUp() {
+    var history = useHistory();
     const [inputedName, setInputedName] = useState("")
     const [inputedSurname, setInputedSurname] = useState("")
     const [inputedPatronymic, setInputedPatronymic] = useState("")
@@ -29,7 +31,9 @@ function SingUp() {
             { headers: {
                 "Content-Type": "application/json"
             }})
-            .then((response) => { alert(response) })
+            .then((response) => { 
+                if (response.status == '200') history.push('/login') 
+            })
         }
     }
 

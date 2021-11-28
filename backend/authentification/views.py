@@ -39,4 +39,8 @@ def login(request):
                 request.session.modified = True
                 return JsonResponse({'userType': request.session.get('userType')})
         elif user is None:
-            return HttpResponse({'status':'ERROR'})
+            return HttpResponse({'status':'401'})
+
+def logout(request):
+    request.session['isLogged'] = 'false'
+    return HttpResponse({'status':'200'})

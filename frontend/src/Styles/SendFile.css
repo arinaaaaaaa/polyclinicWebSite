@@ -1,0 +1,20 @@
+.sendFileForm {
+    display: grid;
+    justify-content: center;
+    grid-template-columns: 1210px;
+}
+.sendFileForm form {
+    justify-content: center;
+    display: grid;
+    grid-template-columns: 300px;
+    margin-bottom: 200px;
+    margin-top: 200px;
+}
+.sendFileForm form input {
+    font-size: 24px;
+    margin-bottom: 40px;
+}
+.sendFileForm form button {
+    height: 40px;
+    background-color: rgb(255, 222, 64);
+}

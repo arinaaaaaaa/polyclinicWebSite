@@ -1,4 +1,5 @@
 import React from 'react';
+import { SendFile } from './SendFile';
 import { Header } from './Universal/Header';
 import { Footer } from './Universal/Footer';
 import { Login } from './Login';
@@ -23,6 +24,7 @@ function App(props) {
               <Route exact path='/user' component = { UserPage }/>
               <Route exact path='/doctor' component = { DoctorPage }/>
               <Route exec path='/note' component = { NotePage }/>
+              <Route exec path='/file' component = { SendFile }/>
             </div>
           </Switch>
           <Footer></Footer>

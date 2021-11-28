@@ -93,12 +93,9 @@
     grid-template-columns: repeat(11, 100px);
     column-gap: 11px;
     row-gap: 10px;
-    margin-bottom: 90px;
+    margin-bottom: 80px;
 }
-.buttonToCreateNote {
-
-    margin-bottom: 60px;
-}
+.buttonToCreateNote { margin-bottom: 60px; }
 .createNote {
     width: 150px;
     height: 40px;
@@ -107,4 +104,17 @@
     background-color: rgb(255, 222, 64);
     font-family: 'jost';
     font-size: 18px;
+}
+.patientCommentField {
+    width: 100%;
+    height: 60px;
+    padding: 20px;
+    border: 1px solid rgb(204, 204, 204);
+    border-radius: 5px;
+    margin-bottom: 50px;
+    text-align: start;
+    outline: none;
+    font-family: 'jost';
+    font-size: 18px;
+    color: rgb(44, 44, 44);
 }

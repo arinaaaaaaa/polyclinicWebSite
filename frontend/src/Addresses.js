@@ -1,7 +1,19 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useState } from 'react';
+import axios from 'axios';
 import './Styles/Addresses.css'
 
+function getJSONPolyclinicsData(changeData) {
+    axios('http://localhost:8000/polyclinic/data/', { withCredentials: true })
+    .then((response) => { 
+        changeData(response.data)
+    })
+}
+
 function Addresses() {
+    const [polyclinicsData, changeData] = useState(null)
+    useEffect(() => { getJSONPolyclinicsData(changeData) }, [])
+
     return (
         <>
             <div className="addressesSection">
@@ -23,22 +35,16 @@ function Addresses() {
                         </select>
                     </span>
                     <span className="clinic">
-                        <div className="point">
-                            <div className="pointType">ЖЕНСКАЯ КОНСУЛЬТАЦИЯ</div>
-                            <div className="pointName">ПОЛИКЛИНИКА №220 ЖК Отделение №7</div>
-                            <div className="pointAddress">г.Москва ул.Пушкинская 17к1</div>
-                            <div className="pointPhone">+7 (499) 217-03-19</div>
-                            <hr />
-                            <div className="pointMetro">Пражская</div>
-                        </div>
-                        <div className="point">
-                            <div className="pointType">ЖЕНСКАЯ КОНСУЛЬТАЦИЯ</div>
-                            <div className="pointName">ПОЛИКЛИНИКА №220 ЖК Отделение №7</div>
-                            <div className="pointAddress">г.Москва ул.Пушкинская 17к1</div>
-                            <div className="pointPhone">+7 (499) 217-03-19</div>
-                            <hr />
-                            <div className="pointMetro">Пражская</div>
-                        </div>
+                        { polyclinicsData != null ? polyclinicsData.map(item => (
+                            <div className="point">
+                                <div className="pointType">{ item.polyclinicType }</div>
+                                <div className="pointName">{ item.name }</div>
+                                <div className="pointAddress">{ item.address }</div>
+                                <div className="pointPhone">{ item.phone }</div>
+                                <hr />
+                                <div className="pointMetro">{ item.metro }</div>
+                            </div>
+                        )) : "" }
                     </span>
                 </div>
             </div>

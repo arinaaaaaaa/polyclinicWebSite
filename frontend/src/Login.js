@@ -40,7 +40,7 @@ function Login() {
                     <input type="login" placeholder="Логин" onChange = {(event) => {setInputedLogin(event.target.value)}}/>
                     <input type="password" placeholder="Пароль" onChange = {(event) => {setInputedPassword(event.target.value)}}/>
                     <button type="submit" onClick = { sendJSONLogin }>Войти</button>
-                    <p className="toSingUpLink">Впервые у нас? <a href="">Зарегистрируйтесь!</a></p>
+                    <p className="toSingUpLink">Впервые у нас? <a href="/join">Зарегистрируйтесь!</a></p>
                 </div>
             </div>
         </div>

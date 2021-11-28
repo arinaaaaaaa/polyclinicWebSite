@@ -1,130 +1,205 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useState } from 'react';
+import axios from 'axios';
+import { useHistory } from 'react-router-dom';
 import './Styles/NotePage.css';
 
 function NotePage() {
-    return (
-        <>
-            <div className="newNoteSection">
-                <div className="title">Новая запись</div>
-                <div className="createNoteSection" id="specialityChoose">
-                    <div className="title">Covid-19</div>
+    var history = useHistory();
+    const [patientData, changeData] = useState(null)
+    const [doctorsBySpeciality, changeDoctorsData] = useState(null)
+    const [doctorDates, changeDoctorDates] = useState(null)
+    const [choosenDate, changeChoosenDate] = useState(null)
+    const [choosenTime, changeChoosenTime] = useState(null)
+    const [doctorTime, changeDoctorTime] = useState(null)
+    const [doctorItem, changeDoctorItem] = useState(null)
+    const [patientComment, setPatientComment] = useState(null)
+
+    useEffect(() => {
+        getJSONUserData(changeData)},
+    [])
+
+    function getJSONUserData(changeData) {
+        axios('http://localhost:8000/patient/data/', { withCredentials: true })
+        .then((response) => { 
+            if (response.data.user == null) history.push('/login')
+            else if (response.data.userType == 'doctor') history.push('/doctor')
+            else changeData(response.data)
+        })
+    }
+    function getDoctorBySpeciality(speciality) {
+        axios.post('http://localhost:8000/doctor/speciality/',
+            { 'speciality': speciality },
+            { headers: { "Content-Type": "application/json" }
+        })
+        .then((response) => { 
+            changeDoctorsData(response.data)
+        })
+    }
+    function getDoctorSchedule(doctor, id) {
+        changeDoctorItem(doctor);
+        axios.get('http://localhost:8000/doctor/dates/' + id + "/" )
+        .then((response) => {
+            changeDoctorDates(response.data)
+        })
+    }
+    function getDoctorTime(choosenUserDate, id) {
+        changeChoosenDate(choosenUserDate)
+        axios.post('http://localhost:8000/doctor/freetime/' + id + "/" , 
+            { "choosenDate": choosenUserDate }, 
+            { headers: { "Content-Type": "application/json"}
+        }).then((response) => {
+            changeDoctorTime(response.data)
+        })
+    }
+    function renderDate(date) {
+        date = date.split('-')
+        var month = ''
+        if (date[1] == '01') month = 'января'
+        else if (date[1] == '02') month = 'февраля'
+        else if (date[1] == '03') month = 'марта'
+        else if (date[1] == '04') month = 'апреля'
+        else if (date[1] == '05') month = 'мая'
+        else if (date[1] == '06') month = 'июня'
+        else if (date[1] == '07') month = 'июля'
+        else if (date[1] == '08') month = 'августа'
+        else if (date[1] == '09') month = 'сентября'
+        else if (date[1] == '10') month = 'октября'
+        else if (date[1] == '11') month = 'ноября'
+        else if (date[1] == '12') month = 'декабря'
+
+        var day = date[2].split('')
+        if (day[0] == '0') day[0] = ''
+        day = day.join('')
+        return (day + " " + month)
+    }
+    function sendNoteData() {
+        console.log(patientData)
+        console.log(doctorItem)
+        axios.post('http://localhost:8000/notes/create/',
+        {
+            'patientID': patientData.id,
+            'doctorID': doctorItem.id,
+            'date': choosenDate,
+            'time': choosenTime,
+            'comment': patientComment
+        },
+        { headers: {
+            "Content-Type": "application/json"
+        }})
+        .then((response) => {
+            console.log(response)
+        })
+    }
+    const specialityArray = {
+        'covid': [
+            { name : 'Вакцинация от COVID-19', path : '/images/covid.png'},
+            { name : 'Мазок на COVID-19 (ПЦР)', path : '/images/covid.png'},
+            { name : 'Кровь (антитела COVID-19)', path : '/images/covid.png'}
+        ],
+        'speciality': [
+            { name : 'Участковый врач', path : '/images/doctorSpeciality.png'},
+            { name : 'Уролог', path : '/images/sex.png'},
+            { name : 'Хирург', path : '/images/surgeon.png'},
+            { name : 'Оторноларинголог', path : 'images/nose.png'},
+            { name : 'Диспансеризация/Профилактический мед.осмотр', path : '/images/doctorSpeciality.png'},
+            { name : 'Офтальмолог', path : '/images/doctorSpeciality.png'},
+            { name : 'Медицинский пост', path : '/images/doctorSpeciality.png'}
+        ]
+    }
+    const [spec, setSpeciality] = useState(specialityArray)
+        return (
+            <>
+                <div className="newNoteSection">
+                    <div className="title">Новая запись</div>
+                    <div className="createNoteSection" id="specialityChoose">
+                        <div className="title">Covid-19</div>
+                            <div className="chooseSpeciality">
+                                { 
+                                    spec['covid'].map(item => {
+                                        return (
+                                            <button className="itemSpeciality" onClick = {() =>{getDoctorBySpeciality(item.name)}}>
+                                                <img src={item.path} alt="" />
+                                                <div className="specialityName">{item.name}</div>
+                                            </button>
+                                        )
+                                    })
+                                }
+                            </div>
+                        <div className="title">Специальности</div>
                         <div className="chooseSpeciality">
-                            <button className="itemSpeciality">
-                                <img src="/images/covid.png" alt="" />
-                                <div className="specialityName">Вакцинация от COVID-19</div>
-                            </button>
-                            <button className="itemSpeciality">
-                                <img src="/images/covid.png" alt="" />
-                                <div className="specialityName">Мазок на COVID-19 (ПЦР)</div>
-                            </button>
-                            <button className="itemSpeciality">
-                                <img src="/images/covid.png" alt="" />
-                                <div className="specialityName">Кровь (антитела COVID-19)</div>
-                            </button>
+                            { spec['speciality'].map(item => {
+                                    return (
+                                        <button className="itemSpeciality" onClick = {() =>{getDoctorBySpeciality(item.name)}}>
+                                            <img src={item.path} alt="" />
+                                            <div className="specialityName">{item.name}</div>
+                                        </button>
+                                    )
+                                })
+                            }
                         </div>
-                    <div className="title">Специальности</div>
-                    <div className="chooseSpeciality">
-                        <button className="itemSpeciality">
-                            <img src="/images/doctorSpeciality.png" alt="" />
-                            <div className="specialityName">Участковый врач</div>
-                        </button>
-                        <button className="itemSpeciality">
-                            <img src="/images/sex.png" alt="" />
-                            <div className="specialityName">Уролог</div>
-                        </button>
-                        <button className="itemSpeciality">
-                            <img src="/images/surgeon.png" alt="" />
-                            <div className="specialityName">Хирург</div>
-                        </button>
-                        <button className="itemSpeciality">
-                            <img src="/images/sex.png" alt="" />
-                            <div className="specialityName">Акушер-гениколог</div>
-                        </button>
-                        <button className="itemSpeciality">
-                            <img src="/images/doctorSpeciality.png" alt="" />
-                            <div className="specialityName">Диспансеризация/Профилактический мед.осмотр</div>
-                        </button>
-                        <button className="itemSpeciality">
-                            <img src="/images/doctorSpeciality.png" alt="" />
-                            <div className="specialityName">Офтальмолог</div>
-                        </button>
-                        <button className="itemSpeciality">
-                            <img src="/images/doctorSpeciality.png" alt="" />
-                            <div className="specialityName">Медицинский пост</div>
-                        </button>
-                        <button className="itemSpeciality">
-                            <img src="/images/nose.png" alt="" />
-                            <div className="specialityName">Оторноларинголог</div>
-                        </button>
+                        { doctorsBySpeciality ? 
+                        <>
+                            <div className="title" id="doctorChoose">Выберите врача <a href="#specialityChoose" className="comeBack">Вернуться к выбору специальности</a></div>
+                            <div className="chooseDoctor">
+                                {
+                                    doctorsBySpeciality.map((item) => {
+                                        return (
+                                            <button className="doctorItem" onClick = {() => {getDoctorSchedule(item, item.id)}}>
+                                                <div className="doctorItemName">{item.user.last_name} {item.user.first_name} {item.patronymic}</div>
+                                                <div className="doctorItemAddress">{item.polyclinic.address}</div>
+                                                <div className="doctorItemPolyclinic">{item.polyclinic.name}</div>
+                                                <div className="doctorItemRoom">Кабинет {item.room}</div>
+                                                <div className="doctorItemFirstDate">Сегодня</div>
+                                            </button>
+                                        )
+                                    })
+                                }
+                            </div>
+                            { doctorDates ?
+                            <>
+                            <div className="title" id="dateChoose">Выберите дату <a href="#doctorChoose" className="comeBack" 
+                            onClick={() => {changeChoosenTime(null)
+                                            changeChoosenDate(null)
+                            }}>Вернуться к выбору врача</a></div>
+                            <div className="chooseDate">
+                                {
+                                    doctorDates.map((dateItem) => {
+                                        return (
+                                            <button className="dateItem" onClick = {() => { getDoctorTime(dateItem, doctorItem.id)}}>{renderDate(dateItem)}</button>
+                                        )
+                                    })
+                                }
+                            </div>
+                            { doctorTime ?
+                            <>
+                            <div className="title">Выберите время <a href="#dateChoose" className="comeBack" onClick={() => {changeChoosenDate(null)}}>Вернуться к выбору даты</a></div>
+                            <div className="chooseTime">
+                                {
+                                    doctorTime.map(timeItem => {
+                                        return (
+                                            <button className="timeItem" onClick = {() => { changeChoosenTime(timeItem) }}>{ timeItem }</button>
+                                        )
+                                    })
+                                }
+                            </div>
+
+                            { choosenTime ?
+                                <>
+                                <input type="text" placeholder = "Расскажите о своих жалобах врачу (необязательно)" className="patientCommentField" onChange = {(event) => {setPatientComment(event.target.value)}}/>
+                                <div className="buttonToCreateNote"><button className="createNote" onClick = {() => {sendNoteData()}}>Записаться</button></div>
+                                </> : ""
+                            }
+                            </> : ""
+                            }
+                            </> : ""
+                        }
+                        </> : ""
+                    }
                     </div>
-                    <div className="title" id="doctorChoose">Выберите врача <a href="#specialityChoose" className="comeBack">Вернуться к выбору специальности</a></div>
-                    <div className="chooseDoctor">
-                        <button className="doctorItem">
-                            <div className="doctorItemName">Фролов Артем Владимирович</div>
-                            <div className="doctorItemAddress">Москва, Южнобутовская улица, д.23</div>
-                            <div className="doctorItemPolyclinic">ГБУЗ КДП 121 ДЗМ</div>
-                            <div className="doctorItemRoom">Кабинет 217</div>
-                            <div className="doctorItemFirstDate">Сегодня</div>
-                        </button>
-                        <button className="doctorItem">
-                            <div className="doctorItemName">Фролов Артем Владимирович</div>
-                            <div className="doctorItemAddress">Москва, Южнобутовская улица, д.23</div>
-                            <div className="doctorItemPolyclinic">ГБУЗ КДП 121 ДЗМ</div>
-                            <div className="doctorItemRoom">Кабинет 217</div>
-                            <div className="doctorItemFirstDate">Сегодня</div>
-                        </button>
-                        <button className="doctorItem">
-                            <div className="doctorItemName">Фролов Артем Владимирович</div>
-                            <div className="doctorItemAddress">Москва, Южнобутовская улица, д.23</div>
-                            <div className="doctorItemPolyclinic">ГБУЗ КДП 121 ДЗМ</div>
-                            <div className="doctorItemRoom">Кабинет 217</div>
-                            <div className="doctorItemFirstDate">Сегодня</div>
-                        </button>
-                        <button className="doctorItem">
-                            <div className="doctorItemName">Фролов Артем Владимирович</div>
-                            <div className="doctorItemAddress">Москва, Южнобутовская улица, д.23</div>
-                            <div className="doctorItemPolyclinic">ГБУЗ КДП 121 ДЗМ</div>
-                            <div className="doctorItemRoom">Кабинет 217</div>
-                            <div className="doctorItemFirstDate">Сегодня</div>
-                        </button>
-                        <button className="doctorItem">
-                            <div className="doctorItemName">Фролов Артем Владимирович</div>
-                            <div className="doctorItemAddress">Москва, Южнобутовская улица, д.23</div>
-                            <div className="doctorItemPolyclinic">ГБУЗ КДП 121 ДЗМ</div>
-                            <div className="doctorItemRoom">Кабинет 217</div>
-                            <div className="doctorItemFirstDate">Сегодня</div>
-                        </button>
-                    </div>
-                    <div className="title" id="dateChoose">Выберите дату <a href="#doctorChoose" className="comeBack">Вернуться к выбору врача</a></div>
-                    <div className="chooseDate">
-                        <button className="dateItem">9 ноября</button>
-                        <button className="dateItem">21 ноября</button>
-                        <button className="dateItem">13 декабря</button>
-                        <button className="dateItem">19 декабря</button>
-                        <button className="dateItem">29 декабря</button>
-                        <button className="dateItem">30 декабря</button>
-                        <button className="dateItem">30 декабря</button>
-                        <button className="dateItem">30 декабря</button>
-                    </div>
-                    <div className="title">Выберите время <a href="#dateChoose" className="comeBack">Вернуться к выбору даты</a></div>
-                    <div className="chooseTime">
-                        <button className="timeItem">12:30</button>
-                        <button className="timeItem">13:20</button>
-                        <button className="timeItem">13:34</button>
-                        <button className="timeItem">14:10</button>
-                        <button className="timeItem">14:45</button>
-                        <button className="timeItem">16:59</button>
-                        <button className="timeItem">17:20</button>
-                        <button className="timeItem">18:40</button>
-                        <button className="timeItem">16:59</button>
-                        <button className="timeItem">17:20</button>
-                        <button className="timeItem">18:40</button>
-                    </div>
-                    <div className="buttonToCreateNote"><button className="createNote">Записаться</button></div>
                 </div>
-            </div>
-        </>
-    )
+            </>
+        )
 }
 
 export { NotePage }

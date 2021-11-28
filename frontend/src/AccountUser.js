@@ -1,43 +1,31 @@
 import React, { useEffect } from 'react';
 import { useState } from 'react';
 import axios from 'axios';
+import { useHistory } from 'react-router-dom';
 import { Modal } from './Universal/Modal';
 import './Styles/AccountUser.css';
 
-
-function getJSONUserData(changeData) {
-    axios('http://localhost:8000/patient/data/', { withCredentials: true })
-    .then((response) => { 
-        changeData(response.data)
-    })
-}
-
-function calculate_age(birth_month,birth_day,birth_year)
-{
-    var today_date = new Date();
-    var today_year = today_date.getFullYear();
-    var today_month = today_date.getMonth();
-    var today_day = today_date.getDate();
-    var age = today_year - birth_year;
-
-    if ( today_month < (birth_month - 1) || ((birth_month - 1) == today_month) && (today_day < birth_day)) age--;
-
-    return age.toString();
-}
-
-function HelloBanner() {
-    const [patientData, changeData] = useState(null)
-    useEffect(() => { getJSONUserData(changeData) }, [])
+function HelloBanner(props) {
+    function calculateAge(birthMonth,birthDay,birthYear) {
+        var todayDate = new Date();
+        var todayYear = todayDate.getFullYear();
+        var todayMonth = todayDate.getMonth();
+        var todayDay = todayDate.getDate();
+        var age = todayYear - birthYear;
+    
+        if ( todayMonth < (birthMonth - 1) || ((birthMonth - 1) == todayMonth) && (todayDay < birthDay)) age--;
+    
+        return age.toString();
+    }
     return (
         <div className="userPage">
             <div className="helloSection">
                 <span className="userInfo">
                     <div className="hello">Хорошего дня,</div>
-                        {console.log(patientData)}
-                        <div className="username">{ patientData != null ? patientData.user['last_name'] + " " + patientData.user['first_name'] + " " + patientData['patronymic'] : null } !</div>
-                        <div className="birthDate">{ patientData != null ? 
-                        patientData['birthDate'].split("-")[2] + "." + patientData['birthDate'].split("-")[1] + "." +patientData['birthDate'].split("-")[0] + " " +
-                        "(" + calculate_age(patientData['birthDate'].split("-")[1], patientData['birthDate'].split("-")[2], patientData['birthDate'].split("-")[0]) + " лет)" : ""}</div>
+                        <div className="username">{ props.patientData != null ? props.patientData.user['last_name'] + " " + props.patientData.user['first_name'] + " " + props.patientData['patronymic'] : "" } !</div>
+                        <div className="birthDate">{ props.patientData != null ? 
+                        props.patientData['birthDate'].split("-")[2] + "." + props.patientData['birthDate'].split("-")[1] + "." + props.patientData['birthDate'].split("-")[0] + " " +
+                        "(" + calculateAge(props.patientData['birthDate'].split("-")[1], props.patientData['birthDate'].split("-")[2], props.patientData['birthDate'].split("-")[0]) + " лет)" : ""}</div>
                 </span>
                 <img src="images/userAccount.svg" alt="" />
             </div>
@@ -69,7 +57,14 @@ function ShowNoteInfo() {
     )
 }
 
-function SingUps() {
+function SingUps(props) {
+    function logoutFunction() {
+        axios('http://localhost:8000/login/logout/', { withCredentials: true })
+        .then((response) => { 
+            if (response.status == '200') props.history.push('/login')
+        })
+    }
+
     return (
         <div className="singupSection">
             <div className="title">Ближайшие записи</div>
@@ -83,8 +78,11 @@ function SingUps() {
                 <a href="#" className="profileAction">
                     <span className="actionName"><img src="/images/pen.png" alt="" /><span>Редактировать профиль</span></span>
                 </a>
-                <a href="#" className="profileAction">
+                <a href="/note" className="profileAction">
                     <span className="actionName"><img src="/images/notes.png" alt="" /><span>Записаться на прием</span></span>
+                </a>
+                <a className="profileAction" onClick = {logoutFunction}>
+                    <span className="actionName"><img src="/images/logout.png" alt="" /><span>Выйти</span></span>
                 </a>
             </div>
         </div>
@@ -92,12 +90,35 @@ function SingUps() {
 }
 
 function UserPage() {
-    return (
-        <>
-            <HelloBanner/>
-            <SingUps/>
-        </>
-    )
+    var history = useHistory();
+    const [isLogged, setLogged] = useState(false);
+    const [patientData, changeData] = useState(null)
+
+    useEffect(() => {
+        getJSONUserData(changeData)},
+    [])
+
+    function getJSONUserData(changeData) {
+        axios('http://localhost:8000/patient/data/', { withCredentials: true })
+        .then((response) => { 
+            if (response.data.user == null) history.push('/login')
+            else {
+                changeData(response.data)
+                setLogged(true)
+            }
+        })
+    }
+
+
+    if (isLogged == true) {
+        return (
+            <>
+                <HelloBanner patientData={patientData}/>
+                <SingUps history={history}/>
+            </>
+        )
+    }
+    else return null
 }
 
 export { UserPage };

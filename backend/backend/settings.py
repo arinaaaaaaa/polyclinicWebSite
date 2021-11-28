@@ -40,8 +40,9 @@ INSTALLED_APPS = [
     'patient.apps.PatientConfig',
     'authentification.apps.AuthentificationConfig',
     'polyclinic.apps.PolyclinicConfig',
+    'notes.apps.NotesConfig',
     'rest_framework',
-    'corsheaders',
+    'corsheaders'
 ]
 
 MIDDLEWARE = [
@@ -58,6 +59,7 @@ MIDDLEWARE = [
 
 CORS_ORIGIN_WHITELIST = [
     'http://localhost:3000',
+    'http://frontend:3000'
 ]
 
 ROOT_URLCONF = 'backend.urls'
@@ -80,21 +82,25 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'backend.wsgi.application'
 CORS_ALLOW_CREDENTIALS = True
-SESSION_COOKIE_AGE = 3600
+SESSION_COOKIE_AGE = 10000
+SESSION_ENGINE = 'redis_sessions.session'
+SESSION_REDIS = {
+    'host': 'localhost',
+    'port': 6379,
+    'db': 0,
+}
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'polyclinic',
-        'USER' : 'root',
-        'PASSWORD' : 'pw',
-        'HOST' : '127.0.0.1',
-        'PORT' : 3308,
-        'OPTIONS': {
-        },
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'policlinic',
+        'USER' : 'postgres',
+        'PASSWORD' : 'password',
+        'HOST' : 'localhost',
+        'PORT' : 5432,
     }
 }
 

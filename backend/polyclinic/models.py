@@ -1,7 +1,10 @@
 from django.db import models
+from model_utils import Choices
+
+typeChoice = ('ЖЕНСКАЯ КОНСУЛЬТАЦИЯ', 'ГОРОДСКАЯ ПОЛИКЛИНИКА', 'КЛИНИЧЕСКИЙ ЦЕНТР', 'МЕДИЦИНСКИЙ ЦЕНТР')
 
 class Polyclinic (models.Model):
-    type = models.CharField(max_length=200)
+    polyclinicType = models.CharField(max_length=200, choices=Choices(*typeChoice))
     name = models.CharField(max_length=100)
     address = models.CharField(max_length=200)
     phone = models.CharField(max_length=20)

@@ -13,7 +13,6 @@ class PatientSerializer(serializers.ModelSerializer):
     user = UserSerializer()
     class Meta:
         model = Patient
-        userType = model._meta.model_name
         fields = ["id", "userType", "user", "patronymic", "polis", "birthDate"]
 
 def join(request):
@@ -22,5 +21,7 @@ def join(request):
     return JsonResponse({'status':'OK'})
 
 def getPatientData(request):
-    patient = PatientSerializer(Patient.objects.get(pk = request.session['userID']))
-    return JsonResponse(patient.data)
+    if (request.session.get('isLogged', 'false') == 'true'):
+        patient = PatientSerializer(Patient.objects.get(pk = request.session['userID']))
+        return JsonResponse(patient.data)
+    else: return HttpResponse({'status':'403'})
