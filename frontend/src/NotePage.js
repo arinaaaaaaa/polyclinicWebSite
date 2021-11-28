@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useState } from 'react';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
+import { Modal } from './Universal/Modal';
 import './Styles/NotePage.css';
 
 function NotePage() {
@@ -14,6 +15,7 @@ function NotePage() {
     const [doctorTime, changeDoctorTime] = useState(null)
     const [doctorItem, changeDoctorItem] = useState(null)
     const [patientComment, setPatientComment] = useState(null)
+    const [modalActive, setModalActive] = useState(false)
 
     useEffect(() => {
         getJSONUserData(changeData)},
@@ -74,8 +76,6 @@ function NotePage() {
         return (day + " " + month)
     }
     function sendNoteData() {
-        console.log(patientData)
-        console.log(doctorItem)
         axios.post('http://localhost:8000/notes/create/',
         {
             'patientID': patientData.id,
@@ -87,6 +87,21 @@ function NotePage() {
         { headers: {
             "Content-Type": "application/json"
         }})
+        .then((response) => {
+            if (response.data.status == 'ALREADY EXISTS') setModalActive(true)
+            
+        })
+    }
+    function cancelNote() {
+        axios.delete('http://localhost:8000/notes/delete/',
+        { headers: {
+            "Content-Type": "application/json"
+        },
+        data: {
+            'patientID': patientData.id,
+            'doctorID': doctorItem.id
+        },
+        })
         .then((response) => {
             console.log(response)
         })
@@ -198,6 +213,14 @@ function NotePage() {
                     }
                     </div>
                 </div>
+                <Modal active = {modalActive} setActive = {setModalActive}>
+                    <div className="specialityModal">Вы уже записаны к этому врачу</div>
+                    <div className="doctorNameModal">Вы уже записаны к выбранному врачу. Отмените запись или запишитесь к другому.</div>
+                    <div className="buttonsModal">
+                        <button className="deleteNote" onClick={() => cancelNote()}>Отменить запись</button>
+                        <button className="closeWindow" onClick={() => setModalActive(false)}>Закрыть окно</button>
+                    </div>
+                </Modal>
             </>
         )
 }
