@@ -1,0 +1,94 @@
+.bannerSection {
+    width: 100%;
+    margin-top: 70px;
+    display: grid;
+    grid-template-columns: 40% 56%;
+    column-gap: 4%;
+}
+.bannerImg img{
+    width: 95%;
+}
+.bannerText {
+    padding-right: 100px;
+    text-align: right;
+}
+.bannerTitle {
+    font-size: 50px;
+    line-height: 60px;
+    font-family: 'jost';
+}
+.bannerInfo {
+    font-size: 22px;
+    font-family: 'montserrat-alternates';
+}
+.bannerInfo img { 
+    vertical-align: middle;
+    width: 40px;
+    margin-left: 20px;
+}
+.phone {
+    height: 40px;
+    line-height: 40px;
+}
+.navSection {
+    justify-content: center;
+    margin-top: 50px;
+    display: grid;
+    grid-template-columns: 394px 394px 394px;
+    grid-template-rows: 300px;
+    column-gap: 14px;
+}
+.navSection span {
+    padding: 40px;
+    border-radius: 5px;
+    background-color: rgba(255, 222, 64, 0.15);
+    font-family: 'jost';
+    font-size: 28px;
+    -webkit-transition: 0.2s linear;
+    -ms-transition: 0.2s linear;
+    transition: 0.2s linear;
+}
+.navSection span a {
+    color: black;
+    text-decoration: none;
+}
+.singUpLink ul {
+    margin-top: 50px;
+    font-size: 18px;
+    font-family: 'montserrat-alternates';
+}
+.singUpLink ul li { margin-bottom: 15px; }
+.singUpLink:hover { background-color: rgba(255, 222, 64, 0.7); }
+.historySection {
+    margin-top: 70px;
+    margin-bottom: 70px;
+    justify-content: center;
+    display: grid;
+    grid-template-columns: 1210px;
+}
+.historyTitle {
+    text-align: center;
+    font-family: 'jost';
+    font-size: 28px;
+    margin-bottom: 30px;
+}
+.historyItems {
+    display: grid;
+    grid-template-columns: 394px 394px 394px;
+    grid-template-rows: 200px;
+    column-gap: 14px;
+}
+.history {
+    text-align: center;
+    background-color: rgba(227, 227, 227, 0.2);
+    border-radius: 5px;
+    padding: 40px;
+}
+.history img { 
+    width: 45px;
+    height: 45px;
+}
+.history p {
+    font-family: 'montserrat-alternates';
+    font-size: 16px;
+}

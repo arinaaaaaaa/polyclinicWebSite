@@ -1,0 +1,48 @@
+.loginSection {
+    width: 100%;
+    justify-content: center;
+    display: grid;
+    grid-template-columns: 1210px;
+}
+.login {
+    margin: 100px 0px;
+    display: grid;
+    grid-template-columns: 780px 400px;
+    column-gap: 30px;
+}
+.title {
+    font-family: 'jost';
+    font-size: 28px;
+    margin-bottom: 40px;
+}
+.login img { width: 650px; }
+.loginForm { text-align: center; }
+.loginForm input {
+    width: 400px;
+    height: 40px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    padding: 0px 20px;
+    box-sizing: border-box;
+    border: 1px solid #CBCBCB;
+    outline: none;
+    font-family: 'montserrat-alternates';
+    font-size: 13px;
+}
+.loginForm button {
+    background-color: rgb(255, 222, 64);
+    border-radius: 5px;
+    width: 402px;
+    height: 42px;
+    border: none;
+    font-family: 'jost';
+    font-size: 16px;
+}
+.toSingUpLink {
+    text-align: right;
+    font-family: 'jost';
+}
+.toSingUpLink a {
+    text-decoration: none;
+    color: rgb(255, 222, 64);
+}

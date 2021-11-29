@@ -1,0 +1,137 @@
+.userPage {
+    justify-content: center;
+    display: grid;
+    grid-template-columns: 1210px;
+    margin-top: 70px;
+}
+.helloSection {
+    display: grid;
+    grid-template-columns: 600px 550px;
+    column-gap: 60px;
+}
+.helloSection img { width: 550px; }
+.userInfo {
+    margin-top: 114px;
+}
+.hello {
+    font-family: 'jost';
+    font-size: 46px;
+    font-weight: bold;
+}
+.username {
+    font-family: 'jost';
+    font-size: 36px;
+    font-weight: 300;
+}
+.title {
+    font-family: 'jost';
+    font-size: 28px;
+    margin-bottom: 40px;
+}
+.birthDate {
+    margin-top: 40px;
+    font-size: 20px;
+    font-family: 'jost';
+    font-weight: 300;
+}
+.singupSection {
+    margin-top: 100px;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1210px;
+    justify-content: center;
+}
+.list, .toDoList {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 380px 380px 380px;
+    column-gap: 35px;
+    row-gap: 10px;
+    margin-bottom: 80px;
+}
+.item {
+    border: none;
+    text-align: left;
+    background-color: rgba(227, 227, 227, 0.3);
+    border-radius: 5px;
+    padding: 30px;
+    cursor: pointer;
+}
+.item:hover { background-color: rgba(227, 227, 227, 0.7); }
+.speciality {
+    font-family: 'jost';
+    font-weight: 600;
+    font-size: 21px;
+    margin-bottom: 10px;
+}
+.date {
+    margin-top: 20px;
+    font-family: 'jost';
+    font-size: 16px;
+}
+.doctorName, .room { 
+    font-family: 'montserrat-alternates'; 
+    font-size: 16px;
+}
+.dateNote {
+    width: 100%;
+    margin-top: 30px;
+    font-family: 'jost';
+    font-weight: 500;
+    font-size: 19px;
+}
+.room { margin-top: 15px; }
+.profileAction {
+    border-radius: 5px;
+    display: grid;
+    grid-template-columns: 380px 380px 380px;
+    column-gap: 35px;
+    background-color: rgba(255, 222, 64, 0.3);
+    padding: 30px;
+    text-decoration: none;
+}
+.actionName img { 
+    margin-right: 20px;
+    width: 30px;
+}
+.actionName {
+    display: flex;
+    line-height: 30px;
+    color: black;
+    font-family: 'jost';
+    font-weight: 600;
+    font-size: 21px;
+    margin-bottom: 10px;
+    margin: 0;
+}
+.profileAction:hover { background-color: rgba(255, 222, 64, 0.7); }
+.specialityModal, .dateModal {
+    font-family: 'jost';
+    font-size: 30px;
+    margin-bottom: 20px;
+}
+.doctorNameModal, .roomModal, .addressModal{
+    font-family: 'jost';
+    font-size: 18px;
+    margin-bottom: 17px;
+}
+.doctorNameModal {
+    font-family: 'montserrat-alternates';
+    margin-bottom: 35px;
+}
+.dateModal { font-size: 20px; }
+.buttonsModal {
+    margin-top: 40px;
+    display: grid;
+    grid-template-columns: 48% 48%;
+    column-gap: 4%;
+}
+.buttonsModal button {
+    height: 35px;
+    border: none;
+    border-radius: 5px;
+    font-family: 'jost';
+    font-size: 15px;
+    color: rgb(0,0,0);
+    background-color: rgb(255, 222, 64);
+}
