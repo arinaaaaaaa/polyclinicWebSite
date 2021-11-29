@@ -62,7 +62,10 @@
     font-family: 'jost';
     font-size: 16px;
 }
-.doctorName, .room { font-family: 'montserrat-alternates'; }
+.doctorName, .room { 
+    font-family: 'montserrat-alternates'; 
+    font-size: 16px;
+}
 .dateNote {
     width: 100%;
     margin-top: 30px;

@@ -29,6 +29,16 @@ def getDoctorData(request):
     doctor = DoctorSerializer(Doctor.objects.get(pk = request.session['userID']))
     return JsonResponse(doctor.data)
 
+def getDoctorByID(request):
+    doctorID = json.loads(request.body.decode("utf-8"))['doctorID']
+    doctor = DoctorSerializer(Doctor.objects.get(id = doctorID))
+    return JsonResponse(doctor.data)
+
+def getTimeByID(request):
+    timeID = json.loads(request.body.decode("utf-8"))['timeID']
+    time = TimeSerializer(Time.objects.get(id = timeID))
+    return JsonResponse(time.data)
+    
 def getDoctorBySpeciality(request):
     specialityName = json.loads(request.body.decode("utf-8"))['speciality']
     doctors = []
@@ -37,6 +47,7 @@ def getDoctorBySpeciality(request):
     return JsonResponse(doctors, safe=False)
 
 def getWorkDates(request, id):
+    doctor = Doctor.objects.all().filter(id=id)
     doctorNotes = Note.objects.all().filter(doctor_id=id)
     schedule = {}
     dates = []
@@ -47,7 +58,7 @@ def getWorkDates(request, id):
     for i in workDaysList:
         workDaysIndexList.append(i.index)
     while (len(dates) < 10):
-        if (currentDate.weekday() in workDaysIndexList):
+        if (currentDate.weekday() in workDaysIndexList and len(doctorNotes.filter(date=currentDate)) < len(doctor.availableTimes.all())):
             dates.append(currentDate)
         currentDate += datetime.timedelta(days=1)
     return JsonResponse(dates, safe=False)

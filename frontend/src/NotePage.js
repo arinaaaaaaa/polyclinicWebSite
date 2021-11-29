@@ -89,10 +89,11 @@ function NotePage() {
         }})
         .then((response) => {
             if (response.data.status == 'ALREADY EXISTS') setModalActive(true)
-            
+            else history.push('/user')
         })
     }
     function cancelNote() {
+        console.log(patientData.id)
         axios.delete('http://localhost:8000/notes/delete/',
         { headers: {
             "Content-Type": "application/json"
@@ -103,7 +104,7 @@ function NotePage() {
         },
         })
         .then((response) => {
-            console.log(response)
+            history.push('/user')
         })
     }
     const specialityArray = {
@@ -153,7 +154,7 @@ function NotePage() {
                                 })
                             }
                         </div>
-                        { doctorsBySpeciality ? 
+                        { doctorsBySpeciality && doctorsBySpeciality.length > 0 ? 
                         <>
                             <div className="title" id="doctorChoose">Выберите врача <a href="#specialityChoose" className="comeBack">Вернуться к выбору специальности</a></div>
                             <div className="chooseDoctor">

@@ -25,3 +25,9 @@ def getPatientData(request):
         patient = PatientSerializer(Patient.objects.get(pk = request.session['userID']))
         return JsonResponse(patient.data)
     else: return HttpResponse({'status':'403'})
+
+def getPatientByID(request):
+    print(request.body)
+    patientID = json.loads(request.body.decode("utf-8"))['patientID']
+    patient = PatientSerializer(Patient.objects.get(id = patientID))
+    return JsonResponse(patient.data)
