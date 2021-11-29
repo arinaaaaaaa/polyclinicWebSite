@@ -23,17 +23,17 @@ services:
     command: >
       bash -c "poetry install &&
       poetry run python manage.py makemigrations &&
-      poetry run python manage.py migrate &&
+      poetry run python manage.py migrate --fake-initial &&
       poetry run python -m gunicorn backend.wsgi:application --bind 0.0.0.0:8000"
     ports:
       - 8000:8000
   frontend:
     image: node
     volumes:
-      - ./frontend:/project/frontend
+      - ./nextjs-frontend:/project/frontend
     command: >
         bash -c "cd /project/frontend
-        && yarn start
+        && yarn dev
         "
     depends_on:
       - backend

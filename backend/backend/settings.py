@@ -85,7 +85,7 @@ CORS_ALLOW_CREDENTIALS = True
 SESSION_COOKIE_AGE = 10000
 SESSION_ENGINE = 'redis_sessions.session'
 SESSION_REDIS = {
-    'host': 'localhost',
+    'host': 'redis',
     'port': 6379,
     'db': 0,
 }
@@ -99,7 +99,7 @@ DATABASES = {
         'NAME': 'policlinic',
         'USER' : 'postgres',
         'PASSWORD' : 'password',
-        'HOST' : 'localhost',
+        'HOST' : 'db',
         'PORT' : 5432,
     }
 }
