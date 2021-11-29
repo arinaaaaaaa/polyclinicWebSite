@@ -23,7 +23,7 @@ class DoctorSerializer(serializers.ModelSerializer):
 class TimeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Time
-        fields = ["currentTime"]
+        fields = ["id", "currentTime"]
 
 def getDoctorData(request):
     doctor = DoctorSerializer(Doctor.objects.get(pk = request.session['userID']))
@@ -49,7 +49,6 @@ def getDoctorBySpeciality(request):
 def getWorkDates(request, id):
     doctor = Doctor.objects.all().filter(id=id)
     doctorNotes = Note.objects.all().filter(doctor_id=id)
-    schedule = {}
     dates = []
     currentDate = datetime.datetime.today().date()
     doctor = Doctor.objects.all().filter(id = id)[0]
@@ -65,8 +64,18 @@ def getWorkDates(request, id):
 
 def getFreeTime(request, id):
     workTime = []
+    date = json.loads(request.body.decode("utf-8"))['choosenDate']
+    print(date)
     for i in Time.objects.all().filter(doctor = id):
-        time = (TimeSerializer(i).data['currentTime']).split(':')
-        workTime.append(time[0]+":"+time[1])
+        time = (TimeSerializer(i).data['currentTime'])
+        timeID = TimeSerializer(i).data['id']
+        note = Note.objects.all().filter(doctor_id = id, date = date)
+        count = 0
+        for j in note:
+            if str(j.time) == time:
+                count += 1
+        if count == 0:
+            time = time.split(':')
+            workTime.append(time[0]+":"+time[1])
     workTime = sorted(workTime)
     return JsonResponse(workTime, safe=False)

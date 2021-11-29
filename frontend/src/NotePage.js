@@ -47,8 +47,9 @@ function NotePage() {
     }
     function getDoctorTime(choosenUserDate, id) {
         changeChoosenDate(choosenUserDate)
-        axios.post('http://localhost:8000/doctor/freetime/' + id + "/" , 
-            { "choosenDate": choosenUserDate }, 
+        axios.post('http://localhost:8000/doctor/freetime/' + id + "/" , { 
+            "choosenDate": choosenUserDate,
+         }, 
             { headers: { "Content-Type": "application/json"}
         }).then((response) => {
             changeDoctorTime(response.data)
