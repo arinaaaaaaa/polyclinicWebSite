@@ -5,16 +5,19 @@ from doctor.models import Doctor
 from django.http.response import HttpResponse, JsonResponse
 from django.contrib.auth import authenticate
 
+#Сериализация объектов Patient
 class PatientSerializer(serializers.ModelSerializer):
     class Meta:
         model = Patient
         fields = ["id", "userType"]
 
+#Сериализация объектов Doctor
 class DoctorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Doctor
         fields = ["id", "userType"]
 
+#Выполнение авторизации в системе
 def login(request):
     jsonData = json.loads(request.body.decode('utf8').replace("'", '"'))
     isLogged = request.session.get('isLogged', 'false')
@@ -41,6 +44,7 @@ def login(request):
         elif user is None:
             return HttpResponse({'status':'401'})
 
+#Выполнение выхода из системы
 def logout(request):
     request.session['isLogged'] = 'false'
     return HttpResponse({'status':'200'})

@@ -160,7 +160,7 @@ function NotePage() {
                         </div>
                         { doctorsBySpeciality && doctorsBySpeciality.length > 0 ? 
                         <>
-                            <div className= {styles.title} id="doctorChoose">Выберите врача <a href="#specialityChoose" className="comeBack">Вернуться к выбору специальности</a></div>
+                            <div className= {styles.title} id="doctorChoose">Выберите врача <a href="#specialityChoose" className={styles.comeBack}>Вернуться к выбору специальности</a></div>
                             <div className= {styles.chooseDoctor}>
                                 {
                                     doctorsBySpeciality.map((item) => {
@@ -178,7 +178,7 @@ function NotePage() {
                             </div>
                             { doctorDates ?
                             <>
-                            <div className= {styles.title} id="dateChoose">Выберите дату <a href="#doctorChoose" className="comeBack" 
+                            <div className= {styles.title} id="dateChoose">Выберите дату <a href="#doctorChoose" className={styles.comeBack}
                             onClick={() => {changeChoosenTime(null)
                                             changeChoosenDate(null)
                             }}>Вернуться к выбору врача</a></div>
@@ -193,7 +193,7 @@ function NotePage() {
                             </div>
                             { doctorTime ?
                             <>
-                            <div className= {styles.title}>Выберите время <a href="#dateChoose" className="comeBack" onClick={() => {changeChoosenDate(null)}}>Вернуться к выбору даты</a></div>
+                            <div className= {styles.title}>Выберите время <a href="#dateChoose" className={styles.comeBack} onClick={() => {changeChoosenDate(null)}}>Вернуться к выбору даты</a></div>
                             <div className= {styles.chooseTime}>
                                 {
                                     doctorTime.map(timeItem => {
@@ -206,8 +206,8 @@ function NotePage() {
 
                             { choosenTime ?
                                 <>
-                                <input type="text" placeholder = "Расскажите о своих жалобах врачу (необязательно)" className="patientCommentField" onChange = {(event) => {setPatientComment(event.target.value)}}/>
-                                <div className="buttonToCreateNote"><button className="createNote" onClick = {() => {sendNoteData()}}>Записаться</button></div>
+                                <input type="text" placeholder = "Расскажите о своих жалобах врачу (необязательно)" className={styles.patientCommentField} onChange = {(event) => {setPatientComment(event.target.value)}}/>
+                                <div className="buttonToCreateNote"><button className={styles.createNote} onClick = {() => {sendNoteData()}}>Записаться</button></div>
                                 </> : ""
                             }
                             </> : ""

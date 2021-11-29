@@ -2,7 +2,9 @@ import json
 from django.http.response import HttpResponse, JsonResponse
 from notes.models import Note
 from rest_framework import serializers
+from notes.serviceLayer.noteServices import noteCreating, noteDeleting, getPatientNotes, getDoctorNotes
 
+#Сериализация объектов Note
 class NoteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Note
@@ -14,32 +16,35 @@ def saveFile(request):
         file.write(fileGet.read())
     return HttpResponse({'status': '200'})
 
+#Создание объектов Note
 def createNote(request):
     jsonData = json.loads(request.body.decode('utf8').replace("'", '"'))
     try:
-        if jsonData['comment'] == None:
-            jsonData['comment'] = ""
-        Note.create(jsonData['patientID'], jsonData['doctorID'], jsonData['date'], jsonData['time'], jsonData['comment'])
+        noteCreating(jsonData)
         return JsonResponse({'status': 'OK'})
     except:
         return JsonResponse({'status':'ALREADY EXISTS'})
 
+#Отмена созданной записи
 def cancelNote(request):
     jsonData = json.loads(request.body.decode('utf8').replace("'", '"'))
-    noteDelete = Note.objects.get(doctor_id = jsonData['doctorID'], patient_id = jsonData['patientID'])
-    Note.delete(noteDelete)
+    noteDeleting(jsonData)
     return HttpResponse('200')
 
+#Получение всех записей объекта Patient
 def patientNotes(request):
-    jsonData = json.loads(request.body.decode('utf8').replace("'", '"'))
+    patientID = json.loads(request.body.decode('utf8').replace("'", '"'))['patientID']
+    patientNotesList = getPatientNotes(patientID)
     patientNotes = []
-    for i in Note.objects.all().filter(patient_id = jsonData['patientID']):
+    for i in patientNotesList:
         patientNotes.append(NoteSerializer(i).data)
     return JsonResponse(patientNotes, safe=False)
 
+#Получение всех записей объекта Doctor
 def doctorNotes(request):
-    jsonData = json.loads(request.body.decode('utf8').replace("'", '"'))
+    doctorID = json.loads(request.body.decode('utf8').replace("'", '"'))['doctorID']
+    doctorNotesList = getDoctorNotes(doctorID)
     doctorNotes = []
-    for i in Note.objects.all().filter(doctor_id = jsonData['doctorID']):
+    for i in doctorNotesList:
         doctorNotes.append(NoteSerializer(i).data)
     return JsonResponse(doctorNotes, safe=False)
